@@ -8,7 +8,7 @@ from google.auth.transport.requests import Request
 # para codificar/decodificar mensagem na base64
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 
-# Para Lidar com tipos MIME de anexos
+# Para Lidar com tipos de anexação MIME
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
@@ -17,14 +17,12 @@ from email.mime.base import MIMEBase
 from mimetypes import guess_type as guess_mime_type
 
 #(Solicitando todo o acesso)
-
 ESCOPO = ['https://mail.google.com/']
 email = 'ifdsl.lic20@uea.edu.br'
-
 def autenticar_gmail():
-    creditos = None
-    # o arquivo token pickle armazerna os tokens de acesso e atuliza do usuario e
-    # é criado automaticamente quando o fluxo de autoização é concluido pela primeira vez
+    creditos =None
+    #O pickle armazerna o acesso do utilizador e a refresca os tokens, e 
+    # é criado automaticamente quando o fluxo de autorização é concluido pela primeira vez
     if os.path.exists("token.pickle"):
         with open("token.pickle", "rb") as token:
             creditos = pickle.load(token)
@@ -33,18 +31,16 @@ def autenticar_gmail():
         if creditos and creditos.expired and creditos.refresh_token:
             creditos.refresh(Request())
         else:
-            fluxo = InstalledAppFlow.from_client_secrets_file('credentials.json', ESCOPO)
+            fluxo = InstalledAppFlow.from_client_secrets_file('credenciais.json', ESCOPO)
             creditos = fluxo.run_local_server(port=0)
-        # salve as credenciais para a próxima exercução
+        # Guarda as credenciais para a próxima exercução
         with open("token.pickle", "wb") as token:
             pickle.dump(creditos, token)
     return build('gmail', 'v1', credentials=creditos)
-
-# obtendo o serviço da API do GMAIL
-
+# obtendo o serviço de API do GMAIL
 servico = autenticar_gmail()
 
-# adiciona o anexo com o nome de arquivo fornecido á mensagem fornecida
+# adiciona o anexo com o nome de ficheiro dado á mensagem dada
 def juntar_anexo(mensagem_email, nome_arquivo):
     tipo_conteudo, codificacao = guess_mime_type(nome_arquivo)
     if tipo_conteudo is None or codificacao is not None:
@@ -76,15 +72,12 @@ def contruir_mensagem(destinatario, assunto,body, anexo=[]):
         mensagem_email = MIMEText(body, 'html')
         mensagem_email['to'] = destinatario
         mensagem_email['from'] = email
-        mensagem_email['subject'] = assunto
-       
-        
+        mensagem_email['subject'] = assunto    
     else:
         mensagem_email = MIMEMultipart()
         mensagem_email['to'] = destinatario
         mensagem_email['from'] = email
         mensagem_email['subject'] = assunto
-        
         mensagem_email.attach(MIMEText(body))
         for nome_arquivo in anexo:
             juntar_anexo(mensagem_email, nome_arquivo)
@@ -95,11 +88,14 @@ def send_message(servico, destinatario, assunto, body, anexo=[]):
       userId="me",
       body=contruir_mensagem(destinatario, assunto, body, anexo)
     ).execute()
-
 def send(usuario, assunto,body):
     send_message(servico, usuario, assunto, body)
 if __name__ == '__main__':
-    send("alfredobarros@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
-    send("juanoliveira@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
-    send("emariellealmeida@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
+         send("alfredobarros@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
+         send("juanoliveira@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
+         send("emariellealmeida@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
+         
+
+     
+   
    

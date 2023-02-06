@@ -2,7 +2,7 @@ import os  # Importando o módulo OS para se comunicar com o sistema operacional
 import pickle # Importando o módulo pickle para implementar procotolos binários
 # Gmail API uteis
 from googleapiclient.discovery import build # Build para verificar, compilar
-from google_auth_oauthlib.flow import InstalledAppFlow # auxiliar de autotização para aplicativos instalados
+from google_auth_oauthlib.flow import InstalledAppFlow # auxiliar de autorização para aplicativos instalados
 from google.auth.transport.requests import Request #Para solicitação. para atualizar manualmente uma instancia de credencias
 
 # para codificar/decodificar mensagem na base64

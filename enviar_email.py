@@ -1,12 +1,13 @@
-import os
-import pickle
+import os  # Importando o módulo OS para se comunicar com o sistema operacional
+import pickle # Importando o módulo pickle para implementar procotolos binários
 # Gmail API uteis
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+from googleapiclient.discovery import build # Build para verificar, compilar
+from google_auth_oauthlib.flow import InstalledAppFlow # auxiliar de autotização para aplicativos instalados
+from google.auth.transport.requests import Request #Para solicitação. para atualizar manualmente uma instancia de credencias
 
 # para codificar/decodificar mensagem na base64
-from base64 import urlsafe_b64decode, urlsafe_b64encode
+# Usando o alfabeto Base64 seguro para URL e sistema de arquivo
+from base64 import urlsafe_b64encode
 
 # Para Lidar com tipos de anexação MIME
 from email.mime.text import MIMEText
@@ -15,7 +16,6 @@ from email.mime.image import MIMEImage
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
 from mimetypes import guess_type as guess_mime_type
-
 #(Solicitando todo o acesso)
 ESCOPO = ['https://mail.google.com/']
 email = 'ifdsl.lic20@uea.edu.br'
@@ -33,7 +33,7 @@ def autenticar_gmail():
         else:
             fluxo = InstalledAppFlow.from_client_secrets_file('credenciais.json', ESCOPO)
             creditos = fluxo.run_local_server(port=0)
-        # Guarda as credenciais para a próxima exercução
+        # Guarda as credenciais para a próxima execução
         with open("token.pickle", "wb") as token:
             pickle.dump(creditos, token)
     return build('gmail', 'v1', credentials=creditos)
@@ -91,9 +91,7 @@ def send_message(servico, destinatario, assunto, body, anexo=[]):
 def send(usuario, assunto,body):
     send_message(servico, usuario, assunto, body)
 if __name__ == '__main__':
-         send("alfredobarros@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
-         send("juanoliveira@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
-         send("emariellealmeida@bemol.com.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
+         send("ifdsl.lic20@uea.edu.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
          
 
      

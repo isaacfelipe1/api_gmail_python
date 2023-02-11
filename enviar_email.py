@@ -91,7 +91,7 @@ def send_message(servico, destinatario, assunto, body, anexo=[]):
 def send(usuario, assunto,body):
     send_message(servico, usuario, assunto, body)
 if __name__ == '__main__':
-         send("ifdsl.lic20@uea.edu.br", "DESAFIO TALENT LAB ITACOATIARA","Olá, meu nome  é Isaac Felipe e estou participando do PROCESSO SELETIVO DA BEMOL DIGITAL")
+         send("ifdsl.lic20@uea.edu.br", "Assunto:","Olá, Tudo Bem ?")
          
 
      
